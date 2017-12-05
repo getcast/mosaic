@@ -19,10 +19,10 @@ class FlickrExtractor < Extractor
 	def extract(text)
 		return extract_with(text: text) if @photos.count == 0
     
-    extract_with(text: text, min_upload_date: @photos.max{date_added})
+    extract_with(text: text, min_upload_date: @photos.max{date_added} + Rational(1, 86400))
 	end
 
-	def extract_with(text, options = {})
+	def extract_with(text:, **options)
 		photos = @flickr.photos.search(:text => text, 
 			:per_page => 500, **options)
 		new_pages = photos.pages
@@ -30,7 +30,7 @@ class FlickrExtractor < Extractor
 		new_photos = []
 		new_pages.times do |page|
 			photos = @flickr.photos.search(:text => text, 
-				:per_page => 500, :page => page, **options)
+				:per_page => 500, :page => page+1)
 
 			photos.each do |photo|
 				n = {}

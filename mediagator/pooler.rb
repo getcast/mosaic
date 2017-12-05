@@ -1,5 +1,5 @@
 class Pooler
-	def initialize(sources, extractor, repository, subscribers, time: 600)
+	def initialize(sources, extractor, repository, subscribers, time:)
 		@sources = sources
 		@extractor = extractor
 		@repository = repository
@@ -8,7 +8,7 @@ class Pooler
 	end
 
 	def pool
-		loop do 
+		loop do
 			threads = []
 			@sources.each do |source|
 				t = Thread.new do
@@ -25,10 +25,11 @@ class Pooler
 				t.run
 				threads << t
 			end
-			
+
 			threads.each do |t|
 				t.join
 			end
+
 			sleep @time
 		end
 	end

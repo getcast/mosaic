@@ -5,9 +5,10 @@ class PhotoRepository < Repository
 		@photos = Database[:photos]
 	end
 
-	def batch_update(new_photos)
+	def batch_update(new_photos) 
 		new_photos.each do |photo|
 			@photos.insert(photo)
 		end
+		puts "inserted!"
 	end
 end
