@@ -30,7 +30,7 @@ class FlickrExtractor < Extractor
 		new_photos = []
 		new_pages.times do |page|
 			photos = @flickr.photos.search(:text => text, 
-				:per_page => 500, :page => page+1)
+				:per_page => 500, :page => page+1, **options)
 
 			photos.each do |photo|
 				n = {}
