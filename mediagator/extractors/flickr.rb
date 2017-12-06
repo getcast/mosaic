@@ -5,13 +5,14 @@ class FlickrExtractor < Extractor
 		path = File.dirname(__FILE__)
 		@flickr = Flickr.new(path + '/flickr.yml')
 		@photos = PhotoRepository.new.photos
+		@time_delay = 4*60 #???
 	end
 
 	def verify(tag)
 		return true unless @photos.count > 0
 		
 		photos = @flickr.photos.search(:text => tag, 
-			:min_upload_date => @photos.max{date_added})
+			:min_upload_date => @photos.max{date_added} + @time_delay)
 		
 		photos.size > 0
 	end
@@ -19,7 +20,7 @@ class FlickrExtractor < Extractor
 	def extract(text)
 		return extract_with(text: text) if @photos.count == 0
     
-    extract_with(text: text, min_upload_date: @photos.max{date_added} + Rational(1, 86400))
+    extract_with(text: text, min_upload_date: @photos.max{date_added} + @time_delay)
 	end
 
 	def extract_with(text:, **options)
@@ -30,7 +31,7 @@ class FlickrExtractor < Extractor
 		new_photos = []
 		new_pages.times do |page|
 			photos = @flickr.photos.search(:text => text, 
-				:per_page => 500, :page => page+1)
+				:per_page => 500, :page => page+1, **options)
 
 			photos.each do |photo|
 				n = {}

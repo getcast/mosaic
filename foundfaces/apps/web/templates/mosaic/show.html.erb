@@ -2,7 +2,7 @@
 	<% if photos %>
 		<% photos.each do |photo| %>
 			<div id="img_container">
-				<img src="<%= photo.url %>" alt="<%= photo.uploaded_at %>">
+				<img src="<%= photo.url %>" alt="<%= photo.date_added %>">
 				<a class="download-button" href="<%= photo.url %>" download="<%= photo.url %>">Download</a>
 				<form action="<%= Web.routes.path(:delete_photo, id: photo.id) %>">
     				<button class="delete-button" type="submit" value="X">X</button>

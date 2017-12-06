@@ -17,6 +17,6 @@ Application.config do
 		sources '"found face"'
 		extractor FlickrExtractor
 		repository PhotoRepository
-		wait_time 1
+		wait_time 10
 	end
 end

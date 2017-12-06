@@ -1,11 +1,6 @@
 require 'hanami/helpers'
 require 'hanami/assets'
 require 'hanami/model'
-require_relative'framework/pooler'
-require_relative '../../lib/foundfaces/repositories/photos_repository'
-require_relative 'framework/updater'
-
-
 
 module Web
   class Application < Hanami::Application
@@ -327,18 +322,6 @@ module Web
         # See: http://hanamirb.org/guides/assets/content-delivery-network/#subresource-integrity
         subresource_integrity :sha256
       end
-      
-      print("ALA QUE TA")
-      rep = {}
-      r = PhotosRepository.new
-      rep["found faces"] = r
-      
-      up = {}
-      u = Updater.new
-      up["found faces"] = u
-      
-      pooler = Pooler(repositories: rep, updaters: up)
-      pooler.pool
     end
   end
 end

@@ -1,20 +1,13 @@
 class PhotosRepository < Hanami::Repository
+	self.relation = :photos
 
-	def search(data)
-		photos.where(url:data).limit(1).first
-	end
-
-	def batch_update(new_data)
-		new_data.each do |data|
-			create(url: data[:url], uploaded_at: data[:uploaded_at])
-		end	
-	end
-
-	def take(limit)
-		photos.order{uploaded_at.desc}.limit(limit)
+	mapping do
+		attribute :id, from: :id
+		attribute :url, from: :url
+		attribute :date_added, from: :date_added
 	end	
 
-	def last_updated
-		photos.order{uploaded_at.desc}.limit(1).one.uploaded_at
-	end
+	def take(limit)
+		photos.order{date_added.desc}.limit(limit)
+	end	
 end
