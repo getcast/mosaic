@@ -11,7 +11,7 @@ class FlickrExtractor < Extractor
 		return true unless @photos.count > 0
 		
 		photos = @flickr.photos.search(:text => tag, 
-			:min_upload_date => @photos.max{date_added})
+			:min_upload_date => @photos.max{date_added} + Rational(1, 84600))
 		
 		photos.size > 0
 	end
